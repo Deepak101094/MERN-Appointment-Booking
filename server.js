@@ -6,4 +6,4 @@ const dbConfig = require("./config/dbConfig");
 
 const port = process.env.port || 8000;
 console.log(process.env.MONGO_URl);
-app.listen(port, () => console.log(`app is running at port ${port}`));
+app.listen(port, () => console.log(`server is running at port ${port}`));
