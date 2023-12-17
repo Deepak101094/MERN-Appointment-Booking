@@ -1,17 +1,29 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(
-	"mongodb+srv://deepak:deepak123@cluster0.bqlatf5.mongodb.net/stayhealthy"
-);
+const connectDB = async () => {
+	try {
+		const connectionInstance = await mongoose.connect(
+			`${process.env.MONGO_URl}`
+		);
+		console.log(
+			`MongoDB connected !! DB HOST: ${connectionInstance.connection.host} `
+		);
+	} catch (error) {
+		console.log("MONGODB connection FAILED:", error);
+		process.exit(1);
+	}
+};
 
-const connection = mongoose.connection;
+// mongoose.connect(process.env.MONGO_URl);
 
-connection.on("connected", () => {
-	console.log("MongoDB is success connected");
-});
+// const connection = mongoose.connection;
 
-connection.on("error", (error) => {
-	console.log("Error in mongoDB connection", error);
-});
+// connection.on("connected", () => {
+// 	console.log("MongoDB is success connected");
+// });
 
-module.exports = mongoose;
+// connection.on("error", (error) => {
+// 	console.log("Error in mongoDB connection", error);
+// });
+
+module.exports = connectDB;

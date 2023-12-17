@@ -1,16 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Register = () => {
-	const handleSubmit = (value) => {
-		console.log(value);
+	const navigate = useNavigate();
+	const handleSubmit = async (formData) => {
+		try {
+			const res = await axios.post("/api/user/register", formData);
+			if (res.data.status) {
+				toast.success("Register Successfull!");
+				toast("Redirecting to login page..");
+				navigate("/login");
+			} else {
+				toast.error("Something went wrong!");
+			}
+		} catch (error) {
+			toast.error("User Already Exists!");
+		}
 	};
 	return (
 		<div className='authentication'>
 			<div className='authentication-form card p-3'>
 				<h1 className='card-title'>Nice to meet you</h1>
-				<Form layout='vertical' onSubmit={handleSubmit}>
+				<Form layout='vertical' onFinish={handleSubmit}>
 					<Form.Item label='Name' name='name'>
 						<Input placeholder='Name' />
 					</Form.Item>
