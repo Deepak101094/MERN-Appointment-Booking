@@ -2,24 +2,28 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
 	const navigate = useNavigate();
+
 	const handleSubmit = async (userData) => {
 		try {
-			const response = await axios.post("api/user/login", userData);
-			if (response.data.status) {
-				toast.success(response.data.message);
-				toast("Redirecting to home page");
-				localStorage.setItem("token", response.data.data);
+			const res = await axios.post("/api/user/login", userData);
+
+			if (res.data.success) {
+				toast.success(res.data.message);
+				toast("Redirecting to home page..");
+				localStorage.setItem("token", res.data.data);
 				navigate("/");
 			} else {
-				toast.error(response.data.message);
+				toast.error(res.data.message);
 			}
 		} catch (error) {
-			toast.error("something went wrong!");
+			toast.error("User Already Exists!");
 		}
 	};
+
 	return (
 		<div className='authentication'>
 			<div className='authentication-form card p-3'>

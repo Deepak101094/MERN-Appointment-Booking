@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
 		await newUser.save();
 
 		res.status(200).send({
-			messsage: "User created succesfully",
+			message: "User created succesfully",
 			success: true,
 		});
 	} catch (error) {
@@ -37,6 +37,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+	// console.log(req.body);
 	try {
 		const user = await User.findOne({ email: req.body.email });
 		if (!user) {

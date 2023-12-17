@@ -6,20 +6,23 @@ import toast from "react-hot-toast";
 
 const Register = () => {
 	const navigate = useNavigate();
+
 	const handleSubmit = async (formData) => {
 		try {
 			const res = await axios.post("/api/user/register", formData);
-			if (res.data.status) {
-				toast.success("Register Successfull!");
+
+			if (res.data.success) {
+				toast.success(res.data.message);
 				toast("Redirecting to login page..");
 				navigate("/login");
 			} else {
-				toast.error("Something went wrong!");
+				toast.error(res.data.message);
 			}
 		} catch (error) {
 			toast.error("User Already Exists!");
 		}
 	};
+
 	return (
 		<div className='authentication'>
 			<div className='authentication-form card p-3'>
